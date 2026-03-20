@@ -88,25 +88,10 @@ coverage.xml
 */.ipynb_checkpoints/*
 
 # =========================
-# SQL / PostgreSQL
+# Files downloaded by torchvision
 # =========================
 
-# Database dumps
-*.dump
-*.backup
-
-# PostgreSQL data directory
-pgdata/
-postgres-data/
-
-# PostgreSQL logs
-pg_log/
-*.pgsql.log
-
-# Temporary database files
-*.db
-*.sqlite
-*.sqlite3
+data/cifar-10-python.tar.gz
 
 # =========================
 # OS files
