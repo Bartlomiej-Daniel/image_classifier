@@ -8,7 +8,15 @@ def get_dataloaders(batch_size=64):
     base_dir = Path(__file__).resolve().parent.parent
     data_path = base_dir / "data"
 
-    transform = transforms.Compose([
+    train_transform = transforms.Compose([
+        transforms.RandomHorizontalFlip(),
+        transforms.RandomCrop(32, padding=4),
+        transforms.ToTensor(),
+        transforms.Normalize((0.5, 0.5, 0.5),
+                             (0.5, 0.5, 0.5))
+    ])
+
+    test_transform = transforms.Compose([
         transforms.ToTensor(),
         transforms.Normalize((0.5, 0.5, 0.5),
                              (0.5, 0.5, 0.5))
@@ -18,14 +26,14 @@ def get_dataloaders(batch_size=64):
         root=data_path,
         download=True,
         train=True,
-        transform=transform
+        transform=train_transform
     )
 
     test_dataset = datasets.CIFAR10(
         root=data_path,
         download=True,
         train=False,
-        transform=transform
+        transform=test_transform
     )
 
     train_loader = DataLoader(

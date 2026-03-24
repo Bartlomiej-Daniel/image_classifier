@@ -12,6 +12,8 @@ class SimpleCNN(nn.Module):
         self.fc1 = nn.Linear(32 * 8 * 8, 128)
         self.fc2 = nn.Linear(128, 10)
 
+        self.dropout = nn.Dropout(0.5)
+
     def forward(self, x):
         x = F.relu(self.conv1(x))
         x = F.max_pool2d(x, 2)
@@ -21,6 +23,9 @@ class SimpleCNN(nn.Module):
         x = torch.flatten(x, 1)
         
         x = F.relu(self.fc1(x))
+
+        x = self.dropout(x)
+
         x = self.fc2(x)
         
         return x
