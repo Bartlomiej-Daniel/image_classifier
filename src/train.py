@@ -15,7 +15,7 @@ def main():
     train_accuracies = []
     test_accuracies = []
 
-    for epoch in range(10):
+    for epoch in range(20):
         model.train()
         total_loss = 0
 
