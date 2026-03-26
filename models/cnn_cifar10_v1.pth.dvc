@@ -1,0 +1,5 @@
+outs:
+- md5: 4e12d5e9c021cf15f2d0393ca92ae7ae
+  size: 1081749
+  hash: md5
+  path: cnn_cifar10_v1.pth
