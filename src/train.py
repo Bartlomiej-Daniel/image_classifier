@@ -2,8 +2,12 @@ import torch
 import torch.nn as nn
 from src.model import SimpleCNN
 from src.data import get_dataloaders
+from pathlib import Path
 
 def main():
+    base_dir = Path(__file__).resolve().parent.parent
+    model_path = base_dir / "models"
+
     model = SimpleCNN()
 
     criterion = nn.CrossEntropyLoss()
@@ -60,6 +64,8 @@ def main():
         test_accuracies.append(test_accuracy)
 
         print(f"Epoch {epoch+1}, Loss: {avg_loss:.4f}, Test Acc: {test_accuracy:.4f}, Train Acc: {train_accuracy:.4f}")
+
+    torch.save(model.state_dict(), model_path / "cnn_cifar10_v1.pth")
 
 
 if __name__ == "__main__":
