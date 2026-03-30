@@ -12,7 +12,10 @@ class SimpleCNN(nn.Module):
         self.conv2 = nn.Conv2d(16, 32, 3, padding=1)
         self.bn2 = nn.BatchNorm2d(32) 
 
-        self.fc1 = nn.Linear(32 * 8 * 8, 128)
+        self.conv3 = nn.Conv2d(32, 64, 3, padding=1)
+        self.bn3 = nn.BatchNorm2d(64)
+
+        self.fc1 = nn.Linear(64 * 4 * 4, 128)
         self.fc2 = nn.Linear(128, 10)
 
         self.dropout = nn.Dropout(0.3)
@@ -22,6 +25,9 @@ class SimpleCNN(nn.Module):
         x = F.max_pool2d(x, 2)
 
         x = F.relu(self.bn2(self.conv2(x)))
+        x = F.max_pool2d(x, 2)
+
+        x = F.relu(self.bn3(self.conv3(x)))
         x = F.max_pool2d(x, 2)
 
         x = torch.flatten(x, 1)
