@@ -13,7 +13,12 @@ def main():
     criterion = nn.CrossEntropyLoss()
     optimizer = torch.optim.Adam(model.parameters(), lr=0.001)
 
-    scheduler = torch.optim.lr_scheduler.StepLR(optimizer, step_size=10, gamma=0.5)
+    scheduler = torch.optim.lr_scheduler.ReduceLROnPlateau(
+        optimizer,
+        mode='max',
+        patience=3,
+        factor=0.5
+    )
 
     train_dataloader, test_dataloader = get_dataloaders()
 
@@ -66,10 +71,10 @@ def main():
         test_accuracies.append(test_accuracy)
 
         print(f"Epoch {epoch+1}, Loss: {avg_loss:.4f}, Test Acc: {test_accuracy:.4f}, Train Acc: {train_accuracy:.4f}")
-        scheduler.step()
+        scheduler.step(test_accuracy)
 
 
-    torch.save(model.state_dict(), model_path / "cnn_cifar10_v2.pth")
+    torch.save(model.state_dict(), model_path / "cnn_cifar10_v3.pth")
 
 
 if __name__ == "__main__":
