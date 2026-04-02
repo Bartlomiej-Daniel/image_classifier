@@ -74,7 +74,7 @@ def main():
         scheduler.step(test_accuracy)
 
 
-    torch.save(model.state_dict(), model_path / "cnn_cifar10_v3.pth")
+    torch.save(model.state_dict(), model_path / "cnn_cifar10_v4.pth")
 
 
 if __name__ == "__main__":
