@@ -10,6 +10,8 @@ def main():
 
     model = SimpleCNN()
 
+    best_acc = 0.0
+
     criterion = nn.CrossEntropyLoss()
     optimizer = torch.optim.Adam(model.parameters(), lr=0.001)
 
@@ -70,11 +72,18 @@ def main():
         train_accuracies.append(train_accuracy)
         test_accuracies.append(test_accuracy)
 
+        if test_accuracy > best_acc:
+            best_acc = test_accuracy
+            torch.save({
+                'model_state_dict': model.state_dict(),
+                'accuracy': best_acc,
+                'epoch': epoch,
+                'optimizer_state_dict': optimizer.state_dict()
+            }, model_path / "cnn_cifar10_v4.pth")
+            print(f"New best model saved! Acc: {best_acc:.4f}")
+
         print(f"Epoch {epoch+1}, Loss: {avg_loss:.4f}, Test Acc: {test_accuracy:.4f}, Train Acc: {train_accuracy:.4f}")
         scheduler.step(test_accuracy)
-
-
-    torch.save(model.state_dict(), model_path / "cnn_cifar10_v4.pth")
 
 
 if __name__ == "__main__":
