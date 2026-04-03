@@ -78,7 +78,10 @@ def main():
                 'model_state_dict': model.state_dict(),
                 'accuracy': best_acc,
                 'epoch': epoch,
-                'optimizer_state_dict': optimizer.state_dict()
+                'optimizer_state_dict': optimizer.state_dict(),
+                'train_losses': train_losses,
+                'train_accuracies': train_accuracies,
+                'test_accuracies': test_accuracies
             }, model_path / "cnn_cifar10_v4.pth")
             print(f"New best model saved! Acc: {best_acc:.4f}")
 
