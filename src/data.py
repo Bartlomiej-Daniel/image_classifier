@@ -4,19 +4,21 @@ from torchvision import datasets, transforms
 from pathlib import Path
 
 
-def get_dataloaders(batch_size=64):
+def get_dataloaders(batch_size=64, img_size=32):
     base_dir = Path(__file__).resolve().parent.parent
     data_path = base_dir / "data"
 
     train_transform = transforms.Compose([
+        transforms.Resize((img_size, img_size)),
         transforms.RandomHorizontalFlip(),
-        transforms.RandomCrop(32, padding=4),
+        transforms.RandomCrop(img_size, padding=4),
         transforms.ToTensor(),
         transforms.Normalize((0.5, 0.5, 0.5),
-                             (0.5, 0.5, 0.5))
+                         (0.5, 0.5, 0.5))
     ])
 
     test_transform = transforms.Compose([
+        transforms.Resize((img_size, img_size)),
         transforms.ToTensor(),
         transforms.Normalize((0.5, 0.5, 0.5),
                              (0.5, 0.5, 0.5))
