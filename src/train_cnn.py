@@ -1,6 +1,6 @@
 import torch
 import torch.nn as nn
-from src.model import SimpleCNN
+from src.cnn_model import SimpleCNN
 from src.data import get_dataloaders
 from pathlib import Path
 
@@ -22,7 +22,7 @@ def main():
         factor=0.5
     )
 
-    train_dataloader, test_dataloader = get_dataloaders()
+    train_dataloader, test_dataloader = get_dataloaders(img_size=32)
 
     train_losses = []
     train_accuracies = []
