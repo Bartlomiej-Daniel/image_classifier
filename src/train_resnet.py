@@ -4,11 +4,13 @@ from src.resnet import get_resnet18
 from src.data import get_dataloaders
 from pathlib import Path
 
+device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+
 def main():
     base_dir = Path(__file__).resolve().parent.parent
     model_path = base_dir / "models"
 
-    model = get_resnet18()
+    model = get_resnet18().to(device)
 
     best_acc = 0.0
 
@@ -33,6 +35,9 @@ def main():
         total_loss = 0
 
         for images, labels in train_dataloader:
+            images = images.to(device)
+            labels = labels.to(device)
+
             optimizer.zero_grad()
 
             outputs = model(images)
@@ -54,12 +59,16 @@ def main():
 
         with torch.no_grad():
             for images, labels in test_dataloader:
+                images = images.to(device)
+                labels = labels.to(device)
                 outputs = model(images)
                 preds = torch.argmax(outputs, dim=1)
                 correct_test += (preds == labels).sum().item()
                 total_test += labels.size(0)
 
             for images, labels in train_dataloader:
+                images = images.to(device)
+                labels = labels.to(device)
                 outputs = model(images)
                 preds = torch.argmax(outputs, dim=1)
                 correct_train += (preds == labels).sum().item()
