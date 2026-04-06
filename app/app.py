@@ -16,8 +16,8 @@ import gdown
 model_path = base_dir / "models"
 example_dir = Path(__file__).parent / "examples"
 
-url_cnn = "https://drive.google.com/file/d/1fQamq-7t0Nx_VHUHDdURWxZFjefNBfjO/view?usp=drive_link"
-url_resnet = "https://drive.google.com/file/d/1rp40nwgKIFWYLcklRjOp-wb4gSbVYJ1Q/view?usp=drive_link"
+url_cnn = "https://drive.google.com/uc?id=1fQamq-7t0Nx_VHUHDdURWxZFjefNBfjO"
+url_resnet = "https://drive.google.com/uc?id=1rp40nwgKIFWYLcklRjOp-wb4gSbVYJ1Q"
 
 # CIFAR-10 class
 classes = [
