@@ -5,3 +5,4 @@ Pillow
 pathlib
 dvc
 jupyter
+gdown
