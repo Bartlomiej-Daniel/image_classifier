@@ -11,12 +11,13 @@ sys.path.append(str(base_dir))
 from src.cnn_model import SimpleCNN
 from src.resnet import get_resnet18
 import urllib.request
+import gdown
 
 model_path = base_dir / "models"
 example_dir = Path(__file__).parent / "examples"
 
-url_cnn = "https://drive.google.com/uc?export=download&id=1fQamq-7t0Nx_VHUHDdURWxZFjefNBfjO"
-url_resnet = "https://drive.google.com/uc?export=download&id=1rp40nwgKIFWYLcklRjOp-wb4gSbVYJ1Q"
+url_cnn = "https://drive.google.com/file/d/1fQamq-7t0Nx_VHUHDdURWxZFjefNBfjO/view?usp=drive_link"
+url_resnet = "https://drive.google.com/file/d/1rp40nwgKIFWYLcklRjOp-wb4gSbVYJ1Q/view?usp=drive_link"
 
 # CIFAR-10 class
 classes = [
@@ -43,20 +44,20 @@ resnet_transform = transforms.Compose([
 def download_model(url, path):
     if not path.exists():
         st.info(f"Downloading model: {path.name}")
-        urllib.request.urlretrieve(url, path)
+        gdown.download(url, str(path), quiet=False)
 
 # load model (cached)
 @st.cache_resource
 def load_models():
     # Load CNN checkpoint (weights + metadata)
     cnn = SimpleCNN()
-    cnn_checkpoint = torch.load(model_path / "cnn_cifar10_v4.pth", map_location="cpu")
+    cnn_checkpoint = torch.load(model_path / "cnn_cifar10_v4.pth", map_location="cpu", weights_only=False)
     cnn.load_state_dict(cnn_checkpoint['model_state_dict'])
     cnn.eval()
 
     # Load ResNet checkpoint (weights + metadata)
     resnet = get_resnet18()
-    resnet_checkpoint = torch.load(model_path / "resnet_cifar10_v1.pth", map_location="cpu")
+    resnet_checkpoint = torch.load(model_path / "resnet_cifar10_v1.pth", map_location="cpu", weights_only=False)
     resnet.load_state_dict(resnet_checkpoint['model_state_dict'])
     resnet.eval()
 
