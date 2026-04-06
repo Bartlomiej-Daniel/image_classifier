@@ -10,9 +10,13 @@ sys.path.append(str(base_dir))
 
 from src.cnn_model import SimpleCNN
 from src.resnet import get_resnet18
+import urllib.request
 
 model_path = base_dir / "models"
 example_dir = Path(__file__).parent / "examples"
+
+url_cnn = "https://drive.google.com/uc?export=download&id=1fQamq-7t0Nx_VHUHDdURWxZFjefNBfjO"
+url_resnet = "https://drive.google.com/uc?export=download&id=1rp40nwgKIFWYLcklRjOp-wb4gSbVYJ1Q"
 
 # CIFAR-10 class
 classes = [
@@ -34,6 +38,12 @@ resnet_transform = transforms.Compose([
     transforms.Normalize((0.5, 0.5, 0.5),
                          (0.5, 0.5, 0.5))
 ])
+
+# download model if not exist
+def download_model(url, path):
+    if not path.exists():
+        st.info(f"Downloading model: {path.name}")
+        urllib.request.urlretrieve(url, path)
 
 # load model (cached)
 @st.cache_resource
@@ -57,15 +67,17 @@ def predict(model, image, transform):
     img = transform(image).unsqueeze(0)
 
     with torch.no_grad():
-        with st.spinner("Classifying..."):
-            outputs = model(img)
+        outputs = model(img)
 
         probs = torch.softmax(outputs, dim=1)
         top3_prob, top3_idx = torch.topk(probs, 3)
 
     return top3_prob, top3_idx
 
-# 
+# downloading and loading models
+download_model(url_cnn, model_path / "cnn_cifar10_v4.pth")
+download_model(url_resnet, model_path / "resnet_cifar10_v1.pth")
+ 
 cnn_model, cnn_checkpoint, resnet_model, resnet_checkpoint = load_models()
 
 # layout
@@ -129,8 +141,9 @@ if image is not None:
     with col1:
         st.image(image, caption="Image", use_container_width=True)
 
-    cnn_probs, cnn_idx = predict(cnn_model, image, cnn_transform)
-    resnet_probs, resnet_idx = predict(resnet_model, image, resnet_transform)
+    with st.spinner("Running models..."):
+        cnn_probs, cnn_idx = predict(cnn_model, image, cnn_transform)
+        resnet_probs, resnet_idx = predict(resnet_model, image, resnet_transform)
 
     with col2:
         st.subheader("CNN")
