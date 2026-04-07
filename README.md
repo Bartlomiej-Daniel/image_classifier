@@ -6,9 +6,9 @@ A deep learning project comparing a custom Convolutional Neural Network (CNN) wi
 
 ## Demo
 
-Upload an image and see how two different models classify it in real time
-Compare predictions, confidence scores, and model behavior
-Link to demo: https://imageclassifier-6rav7zmksm9mzqofllth4n.streamlit.app/
+* Upload an image and see how two different models classify it in real time
+* Compare predictions, confidence scores, and model behavior
+* Link to demo: https://imageclassifier-6rav7zmksm9mzqofllth4n.streamlit.app/
 
 ---
 
@@ -24,7 +24,7 @@ This project explores:
 
 ---
 
-## 🏗️ Models
+## Models
 
 ### Custom CNN
 
