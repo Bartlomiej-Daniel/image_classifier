@@ -126,6 +126,9 @@ selected_example = st.sidebar.selectbox(
 uploaded_file = st.file_uploader("Upload an image", type=["jpg", "png", "jpeg"])
 
 st.subheader("Predictions")
+st.caption("Top-3 predictions from both models")
+st.divider()
+
 col1, col2, col3 = st.columns([2, 1, 1])
 
 # action
